@@ -1,0 +1,30 @@
+[
+  {
+    "title": "The Future of Web Development",
+    "createdAt": "2025-03-24T00:00:00.000Z",
+    "publishedAt": "2025-03-24T00:00:00.000Z",
+    "views": 120,
+    "userId": "507f1f77bcf86cd799439011"
+  },
+  {
+    "title": "Understanding TypeScript in 2025",
+    "createdAt": "2025-03-24T00:00:00.000Z",
+    "publishedAt": "2025-03-24T00:00:00.000Z",
+    "views": 250,
+    "userId": "507f1f77bcf86cd799439012"
+  },
+  {
+    "title": "Next.js: The Best Framework for Modern Web Apps?",
+    "createdAt": "2025-03-24T00:00:00.000Z",
+    "publishedAt": "2025-03-24T00:00:00.000Z",
+    "views": 300,
+    "userId": "507f1f77bcf86cd799439013"
+  },
+  {
+    "title": "AI and Web Development: What's Next?",
+    "createdAt": "2025-03-24T00:00:00.000Z",
+    "publishedAt": "2025-03-24T00:00:00.000Z",
+    "views": 180,
+    "userId": "507f1f77bcf86cd799439014"
+  }
+]
