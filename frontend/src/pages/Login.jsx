@@ -54,7 +54,6 @@ export default function Login() {
       snackbar(`${userData.user.name} logged in successfully`);
       localStorage.setItem("token", userData.user.token);
       setUser(userData);
-      console.log(userData);
 
       navigate("/");
     } catch (error) {

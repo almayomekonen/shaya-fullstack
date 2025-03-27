@@ -12,8 +12,6 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [snackBarText, setSnackBarText] = useState("");
 
-  console.log(user);
-
   const snackbar = (text) => {
     setSnackBarText(text);
     setTimeout(() => setSnackBarText(""), 3000);

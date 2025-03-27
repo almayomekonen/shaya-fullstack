@@ -62,43 +62,111 @@ export default function Articles() {
     fetchArticles();
   }, [setIsLoading, navigate, setUser]);
 
+  const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this article?")) {
+      return;
+    }
+
+    const token = getValidToken();
+    if (!token) {
+      navigate("/");
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      const response = await fetch(
+        `http://localhost:4000/news/articles/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          credentials: "include",
+        }
+      );
+
+      if (response.status === 401) {
+        clearAuth();
+        setUser(null);
+        navigate("/");
+        return;
+      }
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(errorText);
+      }
+
+      // Remove the deleted article from the state
+      setArticles(articles.filter((article) => article.id !== id));
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Title</th>
-          <th>CreatedAt</th>
-          <th>PublishedAt</th>
-          <th>Views</th>
-          <th>
-            <AiFillSetting />
-          </th>
-        </tr>
-      </thead>
+    <div className="articles-container">
+      <div className="articles-header">
+        <h2>Articles Management</h2>
+        <Link to="/article/new">
+          <button className="add-article-btn">Add New Article</button>
+        </Link>
+      </div>
 
-      <tbody>
-        {articles.map((a, index) => (
-          <tr key={a.id}>
-            <td>{index + 1}</td>
-            <td>{a.title}</td>
-            <td>{a.createdAt}</td>
-            <td>{a.publishedAt}</td>
-            <td>{a.views}</td>
-
-            <td>
-              <button className="red">
-                <AiFillDelete />
-              </button>
-              <Link to={"/article/2pac"}>
-                <button className="green">
-                  <AiFillEdit />
-                </button>
-              </Link>
-            </td>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Title</th>
+            <th>CreatedAt</th>
+            <th>PublishedAt</th>
+            <th>Views</th>
+            <th>
+              <AiFillSetting />
+            </th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+
+        <tbody>
+          {articles.map((article, index) => (
+            <tr key={article.id}>
+              <td>{index + 1}</td>
+              <td>{article.title}</td>
+              <td>{new Date(article.createdAt).toLocaleDateString()}</td>
+              <td>
+                {article.publishedAt
+                  ? new Date(article.publishedAt).toLocaleDateString()
+                  : "-"}
+              </td>
+              <td>{article.views}</td>
+
+              <td className="action-buttons">
+                <button
+                  className="red"
+                  onClick={() => handleDelete(article.id)}
+                >
+                  <AiFillDelete />
+                </button>
+                <Link to={`/article/${article.id}`}>
+                  <button className="green">
+                    <AiFillEdit />
+                  </button>
+                </Link>
+              </td>
+            </tr>
+          ))}
+          {articles.length === 0 && (
+            <tr>
+              <td colSpan="6" className="no-articles">
+                No articles found
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+    </div>
   );
 }
